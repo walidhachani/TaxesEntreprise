@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template1">
+<head>
+<link rel="stylesheet" type="text/css"
+	href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" />
+
+<link rel="stylesheet" type="text/css" href="../static/css/myStyle.css"
+	th:href="@{/css/myStyle.css}" />
+<meta charset="utf-8" />
+<title>Entreprises</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container">
+		<div class="panel panel-primary">
+			<div class="panel-heading ">Liste des Entreprises</div>
+
+			<div class="panel-body">
+			
+			<div class="container">
+			
+			<form th:action="@{/entreprises}" method="get">
+			<label>Mot cle : </label>
+			<input type="text" name="motCle"/>
+			<button type="submit" class="btn btn-primary">Chercher</button>
+			
+			
+			</form>
+			
+			
+			</div>
+			
+			
+				<table class="table table-striped">
+					<tr>
+						<th>Code</th>
+						<th>Nom</th>
+						<th>Raison Social</th>
+						<th>Email</th>
+						<th>Liste taxes</th>
+					</tr>
+					<tr th:each="e:${listEntreprises}">
+						<td th:text="${e.code}"></td>
+						<td th:text="${e.nom}"></td>
+						<td th:text="${e.raisonSociale}"></td>
+						<td th:text="${e.email}"></td>
+						<td >
+						<a th:href="@{/taxes(code=${e.code})}">Taxes</a>
+						</td>
+					</tr>
+
+
+				</table>
+				<div>
+					<ul class="nav nav-pills">
+						<li th:each="p,status:${pages}"
+							th:class="${status.index==pageCourante} ? 'active' : '' "><a
+							th:href="@{/entreprises(page=${status.index},motCle=${motCle})}"
+							th:text="${status.index}"></a></li>
+					</ul>
+
+
+
+				</div>
+
+
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+
+</body>
+</html>
